@@ -27,7 +27,9 @@ This project is created with the following:
 * Express
 * React
 * Node.js
+* Axios
 * Bootstrap
+* React Bootstrap
 * Styled Components
 
 ## Features
