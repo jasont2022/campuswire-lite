@@ -19,6 +19,7 @@ const SubmitButton = s.button`
   border-radius: 10px;
   background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #E1306C, #FD1D1D);
   color: white;
+  opacity: ${props => (props.disable ? 0.5 : 1)};
 
   :disabled:hover {
     cursor: not-allowed;
@@ -38,7 +39,6 @@ const Login = () => {
       history.push('/')
     } catch (err) {
       setErrMsg(`${err}`)
-      console.log(err)
     }
   }
 
@@ -74,6 +74,7 @@ const Login = () => {
           style={{ margin: '1rem 0' }}
           onClick={e => login(e)}
           disabled={username === '' || password === ''}
+          disable={username === '' || password === ''}
         >
           Login
         </SubmitButton>

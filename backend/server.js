@@ -3,6 +3,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cookieSession = require('cookie-session')
 const path = require('path')
+const isAuthenticated = require('./middlewares/isAuthenticated')
 
 const app = express()
 const AccountRouter = require('./routes/account')
@@ -24,6 +25,11 @@ app.use(
     maxAge: 26 * 60 * 60 * 1000, // 24 hours
   }),
 )
+
+app.post('/isAuthenticated', isAuthenticated, (req, res) => {
+  const { username } = req.session
+  res.json({ username })
+})
 
 app.use('/account', AccountRouter)
 app.use('/api', QuestionRouter)
