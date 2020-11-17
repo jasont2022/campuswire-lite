@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import s from 'styled-components'
+import AddQuestion from './AddQuestion'
 
 const QuestionsWrapper = s.div`
   width: 40%;
@@ -21,6 +22,10 @@ const Button = s.button`
   text-decoration: none;
   border-radius: 10px;
   background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #E1306C, #FD1D1D);
+
+  :hover {
+    transform: scale(1.02);
+  }
 `
 
 const Question = s.div`
@@ -32,12 +37,14 @@ const Question = s.div`
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 8px;
 
   :hover {
+    transform: scale(1.02);
     cursor: pointer;
   }
 `
 
-const Questions = ({ setErrMsg, setActive }) => {
+const Questions = ({ user, setErrMsg, setActive }) => {
   const [questions, setQuestions] = useState([])
+  const [modalShow, setModalShow] = useState(false)
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -50,12 +57,25 @@ const Questions = ({ setErrMsg, setActive }) => {
         setErrMsg(`${err}`)
       }
     }
+    // const intervalID = setInterval(() => {
     fetchQuestions()
+    //  }, 2000)
+    // clean up function
+    // return () => clearInterval(intervalID)
   }, [])
 
   return (
     <QuestionsWrapper>
-      <Link to="/login"><Button>Log in to submit a question</Button></Link>
+      {user === '' || user === null || user === undefined ? (
+        <Link to="/login"><Button>Login to submit a question</Button></Link>
+      ) : (
+        <Button onClick={() => setModalShow(true)}>Add new question +</Button>
+      )}
+      <AddQuestion
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        setErrMsg={setErrMsg}
+      />
       {questions.map(question => (
         <Question
           key={question._id}

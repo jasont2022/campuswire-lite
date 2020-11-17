@@ -3,6 +3,7 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react'
 import s from 'styled-components'
+import AddAnswer from './AddAnswer'
 
 const Wrapper = s.div`
   width: 60%;
@@ -27,12 +28,17 @@ const Question = ({ author, text, answer }) => (
   </QuestionWrapper>
 )
 
-const DisplayQuestion = ({ question }) => {
-  const { author, questionText, answer } = question
+const DisplayQuestion = ({ user, setErrMsg, question }) => {
+  const {
+    _id, author, questionText, answer,
+  } = question
 
   return (
     <Wrapper>
       <Question author={author} text={questionText} answer={answer} />
+      {user === '' || user === null || user === undefined ? null : (
+        <AddAnswer setErrMsg={setErrMsg} id={_id} />
+      )}
     </Wrapper>
   )
 }

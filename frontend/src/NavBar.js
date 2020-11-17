@@ -1,17 +1,51 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react'
+import axios from 'axios'
+import { Link } from 'react-router-dom'
+import s from 'styled-components'
 import { Navbar, Nav } from 'react-bootstrap'
 
-const NavBar = ({ user }) => (
-  <Navbar bg="light" variant="light">
-    <Navbar.Brand href="#home">Campuswire Lite</Navbar.Brand>
-    <Nav className="mr-auto">
-      <Nav.Link href="#home">Home</Nav.Link>
-      <Nav.Link href="#features">Features</Nav.Link>
-      <Nav.Link href="#pricing">Pricing</Nav.Link>
-    </Nav>
-  </Navbar>
-)
+const Button = s.button`
+  width: 100px;
+  border: none;
+  padding: 5px 10px;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #E1306C, #FD1D1D);
+`
+
+const NavBar = ({
+  user, setErrMsg, count, setCount,
+}) => {
+  const logout = async e => {
+    e.preventDefault()
+    try {
+      await axios.post('/account/logout')
+      setCount(count + 1)
+    } catch (err) {
+      console.log(err)
+      setErrMsg(`${err}`)
+    }
+  }
+
+  return (
+    <Navbar expand="lg" bg="light" variant="light">
+      <Navbar.Brand>Campuswire Lite</Navbar.Brand>
+      <Nav className="ml-auto">
+        {user === '' || user === null || user === undefined ? (
+          <Link to="/login"><Navbar.Text>Login</Navbar.Text></Link>
+        ) : (
+          <>
+            <Navbar.Text style={{ marginRight: '40px' }}>Hi {user}</Navbar.Text>
+            <Button onClick={e => logout(e)}>Logout</Button>
+          </>
+        )}
+      </Nav>
+    </Navbar>
+  )
+}
 
 export default NavBar
