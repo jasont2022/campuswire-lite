@@ -51,17 +51,15 @@ const Questions = ({ user, setErrMsg, setActive }) => {
       try {
         const { data } = await axios.get('/api/questions')
         setQuestions(data)
-        console.log(data)
       } catch (err) {
-        console.log(err)
         setErrMsg(`${err}`)
       }
     }
-    // const intervalID = setInterval(() => {
-    fetchQuestions()
-    //  }, 2000)
+    const intervalID = setInterval(() => {
+      fetchQuestions()
+    }, 2000)
     // clean up function
-    // return () => clearInterval(intervalID)
+    return () => clearInterval(intervalID)
   }, [])
 
   return (

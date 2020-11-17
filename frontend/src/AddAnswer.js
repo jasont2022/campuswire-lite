@@ -22,16 +22,13 @@ const Button = s.button`
 
 const AddAnswer = ({ setErrMsg, id }) => {
   const [answer, setAnswer] = useState('')
-  console.log(id)
 
   const addAnswer = async e => {
     e.preventDefault()
     try {
-      const res = await axios.post('/api/questions/answer', { _id: id, answer })
-      console.log(res)
+      await axios.post('/api/questions/answer', { _id: id, answer })
     } catch (err) {
       setErrMsg(`${err}`)
-      console.log(err)
     }
   }
 

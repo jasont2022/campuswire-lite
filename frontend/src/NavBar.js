@@ -20,13 +20,11 @@ const Button = s.button`
 const NavBar = ({
   user, setErrMsg, count, setCount,
 }) => {
-  const logout = async e => {
-    e.preventDefault()
+  const logout = async () => {
     try {
       await axios.post('/account/logout')
       setCount(count + 1)
     } catch (err) {
-      console.log(err)
       setErrMsg(`${err}`)
     }
   }
@@ -40,7 +38,7 @@ const NavBar = ({
         ) : (
           <>
             <Navbar.Text style={{ marginRight: '40px' }}>Hi {user}</Navbar.Text>
-            <Button onClick={e => logout(e)}>Logout</Button>
+            <Button onClick={() => logout()}>Logout</Button>
           </>
         )}
       </Nav>

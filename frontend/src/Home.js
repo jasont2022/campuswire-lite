@@ -20,22 +20,16 @@ const Home = () => {
   const [active, setActive] = useState({})
   const [count, setCount] = useState(0) // to trigger the useEffect
 
-  // error with setErrMsg for Modal Component (AddQuestion)
   // have to click on a question to update the answer and also did not fetch questions on home
   // component
   useEffect(() => {
     const getStatus = async () => {
       try {
-        const res = await axios.post('/isAuthenticated')
-        const { data: { username } } = res
-        console.log(res)
-        console.log(username)
+        const { data: { username } } = await axios.post('/isAuthenticated')
         setUser(username)
       } catch (err) {
-        console.log(err)
         setUser('')
         history.push('/')
-        // setErrMsg(`${err}`)
       }
     }
     getStatus()

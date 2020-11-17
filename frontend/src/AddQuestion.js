@@ -27,21 +27,20 @@ const Button = s.button`
 `
 
 const AddQuestion = props => {
+  const { setErrMsg, ...rest } = props
   const [text, setText] = useState('')
 
   const addQuestion = async () => {
     try {
-      const res = await axios.post('/api/questions/add', { questionText: text })
-      console.log(res)
+      await axios.post('/api/questions/add', { questionText: text })
     } catch (err) {
       props.setErrMsg(`${err}`)
-      console.log(err)
     }
   }
 
   return (
     <Modal
-      {...props}
+      {...rest}
       size="md"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -61,6 +60,7 @@ const AddQuestion = props => {
           style={{ marginTop: '1rem' }}
           onClick={() => {
             addQuestion()
+            setText('')
             props.onHide()
           }}
           disabled={text === ''}
